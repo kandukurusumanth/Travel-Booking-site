@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+    <script>
+        window.location.href ="/"
+    </script>
+{% else %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h2 class="card-title text-center mb-4">Sign Up</h2>
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-block">Register</button>
+                        </div>
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                <strong>Non-field errors:</strong>
+                                <p class="text-danger">{{ form.non_field_errors }}</p>
+                            </div>
+                        {% endif %}
+                    </form>
+                    <p class="text-center mt-3">
+                        Already have an account? <a href="{% url 'login' %}">Login here</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
