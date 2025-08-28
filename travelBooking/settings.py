@@ -28,7 +28,7 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG", "False") == "True"
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['travel.onrender.com']
 
 # Application definition
 
@@ -149,9 +149,9 @@ CELERY_ENABLE_UTC = True
 
 LOGIN_REDIRECT_URL = '/'
 
+
 LOGOUT_REDIRECT_URL = '/' 
-# Static files (CSS, JavaScript, Images)
+
 STATIC_URL = '/static/'
 
-# Add this line
 STATIC_ROOT = BASE_DIR / 'staticfiles'
