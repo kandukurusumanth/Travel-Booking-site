@@ -27,7 +27,8 @@ load_dotenv(os.path.join(BASE_DIR, '.env'))  # make sure Django always loads .en
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DEBUG", "False") == "True"
+DEBUG = os.getenv("DEBUG", "False").lower() in ("true", "1", "t")
+
 ALLOWED_HOSTS = ['travel.onrender.com']
 
 # Application definition
