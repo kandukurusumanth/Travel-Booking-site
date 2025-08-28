@@ -150,3 +150,8 @@ CELERY_ENABLE_UTC = True
 LOGIN_REDIRECT_URL = '/'
 
 LOGOUT_REDIRECT_URL = '/' 
+# Static files (CSS, JavaScript, Images)
+STATIC_URL = '/static/'
+
+# Add this line
+STATIC_ROOT = BASE_DIR / 'staticfiles'
