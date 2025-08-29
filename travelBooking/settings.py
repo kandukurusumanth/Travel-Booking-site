@@ -140,7 +140,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Timezone settings
 
-CELERY_ENABLE_UTC = True
 
 LOGIN_REDIRECT_URL = '/'
 
