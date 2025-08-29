@@ -252,52 +252,57 @@ destination=${destination}&date=${dateAndTime}&price=${priceSort}&datesort=${Tim
     }
     // handle the bookNow clicking
     document.getElementById("results").addEventListener("click", async (e) => {
-        if(e.target.classList.contains("book-btn")){
-            const travel_id = e.target.dataset.travelId;
-            const user_id = e.target.dataset.userId;
-            console.log(travel_id,user_id , "these are things here") 
-            if(!user_id){
-                alert("Please login to book.");
+    if(e.target.classList.contains("book-btn")){
+        const travel_id = e.target.dataset.travelId;
+        const user_id = e.target.dataset.userId;
+        if(!user_id){
+            alert("Please login to book.");
+            return;
+        }
+
+        // Ask user for number of passengers
+        let numberOfPassengers = prompt("Enter number of passengers:", "1");
+        numberOfPassengers = parseInt(numberOfPassengers);
+        if(isNaN(numberOfPassengers) || numberOfPassengers < 1){
+            alert("Invalid number of passengers.");
+            return;
+        }
+
+        const csrftoken ='{{ csrf_token }}';
+        try {
+            const response = await fetch('http://localhost:8000/booking/', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": csrftoken
+                },
+                body: JSON.stringify({
+                    numberOfSeatsBooked: numberOfPassengers,
+                    travel_id: travel_id,
+                    user_id: user_id,
+                    bookingDate: new Date()
+                })
+            });
+
+            if(!response.ok){
+                alert("Booking failed!");
                 return;
             }
 
-            const csrftoken ='{{ csrf_token }}';
-            try {
-                const response = await fetch('http://localhost:8000/booking/', {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "X-CSRFToken": csrftoken
-                    },
-                    body: JSON.stringify({
-                        numberOfSeatsBooked: 1,
-                        travel_id: travel_id,
-                        user_id: user_id,
-                        bookingDate: new Date()
-                    })
-                });
-
-                if(!response.ok){
-                    alert("Booking failed!");
-                    return;
-                }
-                const data = await response.json()
-                console.log(data.data.travel,"this is the travel which i have got")
-                
-                const availableSeats = document.getElementById(`travel-${Number(data.data.travel)}`)
-                availableSeats.innerHTML=`
-                        <strong>Available Seats:</strong> 
-                        ${data.data.reaminingSeats}
-                `
-                
-                alert("Booking successful!");
-               
-            } catch (error) {
-                alert(error.message);
-            }
+            const data = await response.json();
+            const availableSeats = document.getElementById(`travel-${Number(data.data.travel)}`);
+            availableSeats.innerHTML=`
+                <strong>Available Seats:</strong> 
+                ${data.data.reaminingSeats}
+            `;
+            alert("Booking successful!");
+        } catch (error) {
+            alert(error.message);
         }
+    }
+});
 
-    });
+
     document.getElementById("sortType").addEventListener("change",applyFilters)
     document.getElementById("sortTime").addEventListener("change",applyFilters)
     document.getElementById("sortPrice").addEventListener("change",applyFilters)

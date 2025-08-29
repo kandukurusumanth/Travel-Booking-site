@@ -38,6 +38,7 @@ def searchTravels(request):
             date = request.GET.get("datesort")
             flighttype = request.GET.get("type")
             data = models.Travel.objects.select_related('source','destination').filter(source=source,destination=destination,bookingDateAndTime__gte=dateAndTime)
+            print(data,"this is the data")
             if flighttype:
                 data = data.filter(travelType=flighttype)
             if price:
@@ -64,12 +65,15 @@ def searchTravels(request):
             error['error'] = "Travel not found"
             return JsonResponse(error,status=404)
         except Exception as e:
+            print(str(e)  ,"this is the error")
             error['error'] = str(e)
             return JsonResponse(error,status=500)
 def getAllPlaces(request):
     if request.method =="GET":
         try:
+            
             allPlaces = models.Places.objects.all()
+            print(allPlaces,"these are allplaces")
             if len(allPlaces)==0:
                 error['error'] = "Places not found"
                 return JsonResponse(error,status=404)
