@@ -29,7 +29,7 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG", "False").lower() in ("true", "1", "t")
 
-ALLOWED_HOSTS = ['travel.onrender.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.onrender.com']
 
 # Application definition
 
@@ -86,7 +86,7 @@ DATABASES = {
             'USER': os.getenv("DB_USER"),     
             'PASSWORD': os.getenv("DB_PASSWORD"),  
             'HOST': os.getenv("DB_HOST"),          # Or the IP address/hostname of your MySQL server
-            'PORT': os.getenv("DB_PORT"),               # Default MySQL port
+            'PORT': os.getenv("DB_PORT",'3306'), 
         }
     }
 

@@ -33,11 +33,12 @@
                                     {{ booking.status }}
                                 </span>
 
-                                {% if booking.status == "CONFIRMED"%}
-                                    <button data-booking-id={{booking.bookingId}} id="cancel" type="submit" class="btn btn-sm btn-outline-danger fw-semibold">
+                                {% if booking.status == "CONFIRMED" and booking.travel.bookingDateAndTime > now %}
+                                    <button data-booking-id="{{ booking.bookingId }}" id="cancel" type="submit" class="btn btn-sm btn-outline-danger fw-semibold">
                                         Cancel
                                     </button>
                                 {% endif %}
+
                             </div>
                         </div>
                     </div>

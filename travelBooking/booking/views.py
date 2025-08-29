@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.db import transaction
 import json
+from django.utils import timezone
 from travelBooking.travel.models import Travel
 from . import models
 from django.forms.models import model_to_dict
@@ -68,8 +69,10 @@ def getUserBookingById(request,user_id):
                 bookingData['sourceplace'] = model_to_dict(model.travel.source)
                 bookingData['destinationplace'] = model_to_dict(model.travel.destination)
                 bookingData['user'] = model_to_dict(model.user)
+
                 userBookingDict.append(bookingData)
-            return render(request, "booking/bookingHistory.html", {"bookings": userBookingDict})
+            now = timezone.now()
+            return render(request, "booking/bookingHistory.html", {"bookings": userBookingDict,"now":now})
         except models.Booking.DoesNotExist:
             error["error"] = "Booking not Found"
             return JsonResponse(error,status=404) 
