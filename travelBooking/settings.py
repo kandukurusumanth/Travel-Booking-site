@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 import os
 from dotenv import load_dotenv
-from celery.schedules import crontab
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -108,12 +108,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-CELERY_BEAT_SCHEDULE = {
-    'auto_confirm_bookings_every_minute': {
-        'task': 'user.tasks.auto_confirm_bookings',
-        'schedule': crontab(minute='*/5'), 
-    },
-}
+
 
 
 # Internationalization
@@ -139,13 +134,12 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Redis as broker
-CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL")
 
 # Optional: store results in Redis
-CELERY_RESULT_BACKEND = os.getenv("CELERY_BROKER_URL")
+
 
 # Timezone settings
-CELERY_TIMEZONE = os.getenv("CELERY_TIMEZONE")
+
 CELERY_ENABLE_UTC = True
 
 LOGIN_REDIRECT_URL = '/'
